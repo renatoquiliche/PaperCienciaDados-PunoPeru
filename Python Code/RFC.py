@@ -3,9 +3,11 @@ This script runs RFC tunning for DS-PunoPeru
 
 @author: Renato Quiliche
 """
-
+# %%
 import pandas as pd
 import numpy as np
+import os
+os.chdir('d:\\PaperCienciaDados-PunoPeru')
 
 data_puno = pd.read_csv("Databases/peru_2019.csv")
 
@@ -21,6 +23,8 @@ from sklearn.preprocessing import MinMaxScaler
 
 scaler = MinMaxScaler()
 x[["altura", "gpc"]] = scaler.fit_transform(x[["altura", "gpc"]])
+
+# %%
 
 # Init the grid search cross-validation on ENLR
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
@@ -40,6 +44,8 @@ def neg_pred_value(y_true,y_predicted):
         neg_pred_value = cm[0][0]/(cm[1][0]+cm[0][0])
     return neg_pred_value
 
+# %%
+
 def RFCexperiments(K_folds, Repeats):
     # Cross-validation method
     cv = RepeatedStratifiedKFold(n_splits=K_folds, n_repeats=Repeats, random_state=0)
@@ -47,8 +53,8 @@ def RFCexperiments(K_folds, Repeats):
     # Hyperparameter grid for ENLR
     param_grid = {'criterion': ['gini'],
                   'max_depth': [2, 3, 4, 5, None],
-                  'min_samples_leaf': np.arange(0,1.1,0.1),
-                  'min_samples_split': np.arange(0,1.1,0.1),
+                  'min_samples_leaf': np.arange(0.1,1.1,0.1),
+                  'min_samples_split': np.arange(0.1,1.1,0.1),
                   'n_estimators': [10, 100, 200, 500],
                   'max_features': ['log2']}
     
@@ -66,27 +72,42 @@ def RFCexperiments(K_folds, Repeats):
     results = search_ddnn.fit(x, Y)
     return results
 
+# %%
 # Loop guardar resultados de experimentos en CSV
 Repeats = [15, 10, 8, 6]
 
 import time
 
-summary = {"param_criterion": [], "param_max_depth": [], "param_max_features": [], "param_min_samples_leaf": [],
+RFCsummary = {"param_criterion": [], "param_max_depth": [], "param_max_features": [], "param_min_samples_leaf": [],
            "param_min_samples_split": [], "param_n_estimators": [], "K_fold": []}
 
 for i in range(2,6):
     start = time.time()
     print("Configuration")
     print("K_folds =", i, "------- Repeats =", Repeats[i-2]*i)
-    exec(f'RFCResults_{i} = RFCexperiments({i}, Repeats[{(i-2)}])')
+    exec(f'RFCresults_{i} = RFCexperiments({i}, Repeats[{(i-2)}])')
     #print("Elapsed Time ", (time.time() - start))
-    exec(f'print("Optimal Parameters :", RFCResults_{i}.best_params_)')
-    exec(f'pd.DataFrame(RFCResults_{i}.cv_results_).to_csv("Resultados/RFC/RFC_results_{i}.csv")')
+    exec(f'print("Optimal Parameters :", RFCresults_{i}.best_params_)')
+    exec(f'pd.DataFrame(RFCresults_{i}.cv_results_).to_csv("Resultados/RFC/RFC_results_{i}.csv")')
     #Construimos resumen de resultados
-    exec(f'summary["C"].append(RFCResults_{i}.best_params_["C"])')
-    exec(f'summary["l1_ratio"].append(RFCResults_{i}.best_params_["l1_ratio"])')
-    exec(f'summary["K_fold"].append({i})')
+    exec(f'RFCsummary["param_criterion"].append(RFCresults_{i}.best_params_["criterion"])')
+    exec(f'RFCsummary["param_max_depth"].append(RFCresults_{i}.best_params_["max_depth"])')
+    exec(f'RFCsummary["param_max_features"].append(RFCresults_{i}.best_params_["max_features"])')
+    exec(f'RFCsummary["param_min_samples_leaf"].append(RFCresults_{i}.best_params_["min_samples_leaf"])')
+    exec(f'RFCsummary["param_min_samples_split"].append(RFCresults_{i}.best_params_["min_samples_split"])')
+    exec(f'RFCsummary["param_n_estimators"].append(RFCresults_{i}.best_params_["n_estimators"])')
+    exec(f'RFCsummary["K_fold"].append({i})')
     Total_time = (time.time() - start)
     print("Iteration time: ", Total_time)
 
-pd.DataFrame(summary).to_excel("Resultados/RFC/summary.xlsx")
+pd.DataFrame(RFCsummary).to_excel("Resultados/RFC/summary.xlsx")
+
+# %%
+for i in range(2,6):
+    exec(f'RFC2_res = pd.read_csv("Resultados/RFC/RFC_results_{i}.csv")')
+    #RFC2_res["Rank"] = RFC2_res["rank_test_MCC"]+RFC2_res["rank_test_NPV"]
+    RFC2_res = RFC2_res.sort_values(by=["rank_test_MCC"]).iloc[0:30,:]
+    RFC2_res = RFC2_res.loc[RFC2_res["rank_test_NPV"]==1]
+    print(RFC2_res.iloc[0,5:10])
+
+# %%

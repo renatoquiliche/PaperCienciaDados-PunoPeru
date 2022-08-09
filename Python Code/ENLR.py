@@ -6,6 +6,8 @@ This script runs ENLR tunning for DS-PunoPeru
 
 import pandas as pd
 import numpy as np
+import os
+os.chdir('d:\\PaperCienciaDados-PunoPeru')
 
 data_puno = pd.read_csv("Databases/peru_2019.csv")
 
@@ -78,15 +80,15 @@ def ENLRexperiments(K_folds, Repeats):
 Repeats = [15, 10, 8, 6]
 
 import time
-start = time.time()
 
-summary = {"C": [], "l1_ratio": [], "K_fold": [], "lambda": [], "composite": []}
+summary = {"C": [], "l1_ratio": [], "K_fold": []}
 
 for i in range(2,6):
+    start = time.time()
     print("Configuration")
     print("K_folds =", i, "------- Repeats =", Repeats[i-2]*i)
     exec(f'ENLRresults_{i} = ENLRexperiments({i}, Repeats[{(i-2)}])')
-    print("Elapsed Time ", (time.time() - start))
+    #print("Elapsed Time ", (time.time() - start))
     exec(f'print("Optimal Parameters :", ENLRresults_{i}.best_params_)')
     exec(f'pd.DataFrame(ENLRresults_{i}.cv_results_).to_csv("Resultados/ENLR/ENLR_results_{i}.csv")')
     #Construimos resumen de resultados
@@ -94,4 +96,7 @@ for i in range(2,6):
     exec(f'summary["l1_ratio"].append(ENLRresults_{i}.best_params_["l1_ratio"])')
     exec(f'summary["K_fold"].append({i})')
     Total_time = (time.time() - start)
-    print(Total_time)
+    print("Iteration time: ", Total_time)
+
+pd.DataFrame(summary).to_excel("Resultados/ENLR/summary.xlsx")
+
