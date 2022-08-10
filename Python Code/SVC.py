@@ -41,6 +41,7 @@ from sklearn.model_selection import RepeatedStratifiedKFold
 
 # I define here the NPV metric
 def neg_pred_value(y_true,y_predicted):
+    from sklearn.metrics import confusion_matrix
     cm = confusion_matrix(y_true, y_predicted)
     if (cm[1][0]+cm[0][0])==0:
         neg_pred_value=0
@@ -57,11 +58,14 @@ def SVCexperiments(K_folds, Repeats):
     
     # Hyperparameter grid for ENLR
     param_grid = { 
-        "C": [10],
-        "kernel" : ["linear", "poly", "rbf", "sigmoid"],
-        'gamma':[1,0.1,0.001,0.0001]
+        "C": [1e-3, 1e-2, 1e-1, 1.0, 10.0, 100.0, 1000.0],
+        "kernel" : ("poly", "rbf", "sigmoid"),
+        'gamma': 10**np.arange(-5,5,1, dtype="float")
     }
     # randint.rvs(100,150, size=200)
+    # Linear plantearlo como ElasticNet (no se puede, o es l1 o l2)
+    # Hacer un RS para poly, tiene que variar el parametro degree
+    # El poly acepta polinomios de tercer grado en las X
     
     # I define the model here
     SVClf = SVC()
@@ -75,7 +79,7 @@ def SVCexperiments(K_folds, Repeats):
     
     #Test CV
     search_ddnn = RandomizedSearchCV(random_state=0, estimator=SVClf, param_distributions=param_grid
-                                     , scoring=scoring, cv=cv, n_jobs=-1, refit="MCC", verbose=4, n_iter=10)
+                                     , scoring=scoring, cv=cv, n_jobs=-1, refit=False, verbose=4, n_iter=200)
     results = search_ddnn.fit(x, Y)
     return results
 
@@ -84,3 +88,4 @@ def SVCexperiments(K_folds, Repeats):
 res = SVCexperiments(2, 2)
 # %%
 pd.DataFrame(res.cv_results_).to_csv("Resultados/SVC/first.csv")
+
