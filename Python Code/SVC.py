@@ -1,8 +1,9 @@
 """
-This script runs XGBoost tunning for DS-PunoPeru
+This script runs SVClassifier tunning for DS-PunoPeru
 
 @author: Renato Quiliche
 """
+
 # %%
 import pandas as pd
 import numpy as np
@@ -26,13 +27,17 @@ x[["altura", "gpc"]] = scaler.fit_transform(x[["altura", "gpc"]])
 
 # %%
 
+# Importando los paquetes
+
+# Method HPO
 from sklearn.model_selection import RandomizedSearchCV
-import xgboost as xgb
+
+# Supervised learning algoritm
+from sklearn.svm import SVC
 from sklearn.metrics import matthews_corrcoef, make_scorer, accuracy_score, f1_score, roc_curve
-#from sklearn.model_selection import StratifiedKFold
+
+# Cross-Validation method
 from sklearn.model_selection import RepeatedStratifiedKFold
-#from sklearn.model_selection import StratifiedShuffleSplit
-from sklearn.metrics import confusion_matrix
 
 # I define here the NPV metric
 def neg_pred_value(y_true,y_predicted):
@@ -43,31 +48,25 @@ def neg_pred_value(y_true,y_predicted):
         neg_pred_value = cm[0][0]/(cm[1][0]+cm[0][0])
     return neg_pred_value
 
-# %%
-XGB = xgb.XGBClassifier(objective="binary:logistic", tree_method='gpu_hist', gpu_id=0)
-XGB.fit(x, Y)
-
-
-# %%
+# %% HPO Function
 from scipy.stats import uniform, randint
 
-def XGBexperiments(K_folds, Repeats):
+def SVCexperiments(K_folds, Repeats):
     # Cross-validation method
     cv = RepeatedStratifiedKFold(n_splits=K_folds, n_repeats=Repeats, random_state=0)
     
     # Hyperparameter grid for ENLR
-    param_grid = {
-        "colsample_bytree": uniform(0.7, 0.3),
-        "gamma": uniform(0, 0.5),
-        "learning_rate": uniform(0.03, 0.3), # default 0.1 
-        "max_depth": randint(2, 6), # default 3
-        "n_estimators": randint(100, 200), # default 100
-        "subsample": uniform(0.6, 0.4)
+    param_grid = { 
+        "C": [10],
+        "kernel" : ["linear", "poly", "rbf", "sigmoid"],
+        'gamma':[1,0.1,0.001,0.0001]
     }
     # randint.rvs(100,150, size=200)
     
     # I define the model here
-    XGB = xgb.XGBClassifier(objective="binary:logistic")
+    SVClf = SVC()
+    
+    # Metrics
     scoring = {"AUC": "roc_auc"
                , "Accuracy": make_scorer(accuracy_score)
                , "F1-Score": "f1"
@@ -75,13 +74,13 @@ def XGBexperiments(K_folds, Repeats):
                , "NPV": make_scorer(neg_pred_value)}
     
     #Test CV
-    search_ddnn = RandomizedSearchCV(random_state=0, estimator=XGB, param_distributions=param_grid
-                                     , scoring=scoring, cv=cv, n_jobs=-1, refit="MCC", verbose=4, n_iter=200)
+    search_ddnn = RandomizedSearchCV(random_state=0, estimator=SVClf, param_distributions=param_grid
+                                     , scoring=scoring, cv=cv, n_jobs=-1, refit="MCC", verbose=4, n_iter=10)
     results = search_ddnn.fit(x, Y)
     return results
+
 # %%
 
-res = XGBexperiments(5, 2)
+res = SVCexperiments(2, 2)
 # %%
-pd.DataFrame(res.cv_results_).to_csv("Resultados/XGB/first.csv")
-
+pd.DataFrame(res.cv_results_).to_csv("Resultados/SVC/first.csv")
