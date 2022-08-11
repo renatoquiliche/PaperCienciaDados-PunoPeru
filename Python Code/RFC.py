@@ -56,7 +56,7 @@ def RFCexperiments(K_folds, Repeats):
                   'max_depth': randint(2,10),
                   'min_samples_leaf': uniform(0.01, 0.4),
                   'min_samples_split': uniform(0.01,0.6),
-                  'n_estimators': randint(10, 400),
+                  'n_estimators': randint(10, 300),
                   'max_features': ['log2', 'sqrt']}
     
     # I define the model here
@@ -69,14 +69,15 @@ def RFCexperiments(K_folds, Repeats):
     
     #Test CV
     search_ddnn = RandomizedSearchCV(random_state=0, estimator = RFC, param_distributions=param_grid
-                                     , scoring=scoring, cv=cv, n_jobs=-1, refit="MCC", verbose=4, n_iter=200)
+                                     , scoring=scoring, cv=cv, n_jobs=-1, refit="MCC", verbose=4, n_iter=400)
     results = search_ddnn.fit(x, Y)
     return results
 
 # %%
 # Loop guardar resultados de experimentos en CSV
-Repeats = [5, 4, 3, 2]
-exec(f'RFCresults_{i} = RFCexperiments({i}, Repeats[{(i-2)}])')
+
+#Repeats = [5, 4, 3, 2]
+exec(f'RFCresults_{2} = RFCexperiments(5, 2)')
 pd.DataFrame(RFCresults_2.cv_results_).to_csv("Resultados/RFC/scratch.csv")
 
 # %%
