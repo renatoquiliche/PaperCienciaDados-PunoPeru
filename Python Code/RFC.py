@@ -45,18 +45,19 @@ def neg_pred_value(y_true,y_predicted):
     return neg_pred_value
 
 # %%
+from scipy.stats import uniform, randint
 
 def RFCexperiments(K_folds, Repeats):
     # Cross-validation method
     cv = RepeatedStratifiedKFold(n_splits=K_folds, n_repeats=Repeats, random_state=0)
     
     # Hyperparameter grid for ENLR
-    param_grid = {'criterion': ['gini'],
-                  'max_depth': [2, 3, 4, 5, None],
-                  'min_samples_leaf': np.arange(0.1,1.1,0.1),
-                  'min_samples_split': np.arange(0.1,1.1,0.1),
-                  'n_estimators': [10, 100, 200, 500],
-                  'max_features': ['log2']}
+    param_grid = {'criterion': ['gini', 'entropy'],
+                  'max_depth': randint(2,10),
+                  'min_samples_leaf': uniform(0.01, 0.4),
+                  'min_samples_split': uniform(0.01,0.6),
+                  'n_estimators': randint(10, 400),
+                  'max_features': ['log2', 'sqrt']}
     
     # I define the model here
     RFC = RandomForestClassifier(random_state=0, n_jobs=-1, bootstrap=True)
@@ -68,13 +69,17 @@ def RFCexperiments(K_folds, Repeats):
     
     #Test CV
     search_ddnn = RandomizedSearchCV(random_state=0, estimator = RFC, param_distributions=param_grid
-                                     , scoring=scoring, cv=cv, n_jobs=-1, refit="MCC", verbose=0, n_iter=200)
+                                     , scoring=scoring, cv=cv, n_jobs=-1, refit="MCC", verbose=4, n_iter=200)
     results = search_ddnn.fit(x, Y)
     return results
 
 # %%
 # Loop guardar resultados de experimentos en CSV
-Repeats = [15, 10, 8, 6]
+Repeats = [5, 4, 3, 2]
+exec(f'RFCresults_{i} = RFCexperiments({i}, Repeats[{(i-2)}])')
+pd.DataFrame(RFCresults_2.cv_results_).to_csv("Resultados/RFC/scratch.csv")
+
+# %%
 
 import time
 
