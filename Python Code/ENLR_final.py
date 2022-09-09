@@ -45,7 +45,7 @@ print("Classes are balanced")
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from sklearn.metrics import matthews_corrcoef, make_scorer, accuracy_score, f1_score, roc_curve
 #from sklearn.model_selection import StratifiedKFold
-from sklearn.model_selection import RepeatedStratifiedKFold
+from sklearn.model_selection import RepeatedStratifiedKFold, StratifiedKFold
 #from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.metrics import confusion_matrix
 from sklearn.linear_model import LogisticRegression
@@ -92,12 +92,16 @@ import time
 start = time.time()
 
 K = 10
-Repeats = 1
+Repeats = 2
 n_iter = 2000
 ENLR_results =  ENLRexperiments(K, Repeats, n_iter)
 
 Total_time = (time.time() - start)
 print("Training time: ", Total_time, " seconds")
+
+# %%
+
+pd.DataFrame(ENLR_results.cv_results_).to_csv("..\Resultados\ENLR\ENLR_results.csv")
 
 # %%
 cutoff = round(n_iter*0.05)
@@ -120,32 +124,50 @@ print("Percentil 5 cutoff: ", cutoff)
 # %%
 display(step4[["rank_test_MCC", "rank_test_NPV"]])
 display(step5[["rank_test_MCC", "rank_test_NPV"]])
-display(step5["params"].iloc[1])
+
+print("Parameters before NPV maximization: ")
+display(step4["params"].iloc[0])
+
+print("Parameters after NPV maximization: ")
 display(step5["params"].iloc[0])
 
 # %%
+import seaborn as sns
 
-# Loop guardar resultados de experimentos en CSV
-Repeats = [15, 10, 8, 6]
+NPV_repeats = {"Repeat1": [], "Repeat2": []}
+for i in range(10):
+    NPV_repeats["Repeat1"].append(f'split{i}_test_NPV')
 
-import time
+for i in range(10,20):
+    NPV_repeats["Repeat2"].append(f'split{i}_test_NPV')    
 
-summary = {"C": [], "l1_ratio": [], "K_fold": []}
+NPV = pd.DataFrame()
 
-for i in range(2,6):
-    start = time.time()
-    print("Configuration")
-    print("K_folds =", i, "------- Repeats =", Repeats[i-2]*i)
-    exec(f'ENLRresults_{i} = ENLRexperiments({i}, Repeats[{(i-2)}])')
-    #print("Elapsed Time ", (time.time() - start)
-    exec(f'print("Optimal Parameters :", ENLRresults_{i}.best_params_)')
-    exec(f'pd.DataFrame(ENLRresults_{i}.cv_results_).to_csv("Resultados/ENLR/ENLR_results_{i}.csv")')
-    #Construimos resumen de resultados
-    exec(f'summary["C"].append(ENLRresults_{i}.best_params_["C"])')
-    exec(f'summary["l1_ratio"].append(ENLRresults_{i}.best_params_["l1_ratio"])')
-    exec(f'summary["K_fold"].append({i})')
-    Total_time = (time.time() - start)
-    print("Iteration time: ", Total_time)
+NPV_repeats1 = pd.concat([step5.iloc[0:1].T.loc[NPV_repeats["Repeat1"]].reset_index(), 
+            pd.Series(np.ones(10).astype("int"))], axis=1, ignore_index=True)
 
-pd.DataFrame(summary).to_excel("Resultados/ENLR/summary.xlsx")
+NPV_repeats2 = pd.concat([step5.iloc[0:1].T.loc[NPV_repeats["Repeat2"]].reset_index(), 
+            pd.Series(np.ones(10).astype("int"))+1], axis=1, ignore_index=True)            
 
+
+NPV_repeats = pd.concat([NPV_repeats1, NPV_repeats2], axis=0)
+NPV_repeats.columns = ["experiment", "NPV", "Repeat"]
+
+sns.set_theme()
+sns.boxplot(data=NPV_repeats, y="NPV", x="Repeat")
+
+# %%
+import seaborn as sns
+import pandas as pd
+
+results_dataset = pd.read_csv("..\Resultados\ENLR\ENLR_results.csv")
+
+color_dict = dict({0.01:'brown',
+                  0.1:'green',
+                  1.0: 'orange',
+                  10.0: 'red',
+                   100.0: 'dodgerblue'})
+
+sns.scatterplot(data=results_dataset, x="param_l1_ratio", y="mean_test_MCC", hue="param_C"
+                ,palette=color_dict)
+# %%

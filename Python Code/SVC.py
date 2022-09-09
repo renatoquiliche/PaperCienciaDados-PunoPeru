@@ -62,6 +62,8 @@ def SVCexperiments(K_folds, Repeats):
         "kernel" : ("poly", "rbf", "sigmoid"),
         'gamma': 10**np.arange(-5,5,1, dtype="float")
     }
+
+    #Estudiar como definir gamma
     # randint.rvs(100,150, size=200)
     # Linear plantearlo como ElasticNet (no se puede, o es l1 o l2)
     # Hacer un RS para poly, tiene que variar el parametro degree
