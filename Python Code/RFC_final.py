@@ -51,10 +51,9 @@ def RFCexperiments(K_folds, Repeats, n_iter):
     # Hyperparameter grid for RFC
     param_grid = {'criterion': ['gini', 'entropy'],
                   'max_depth': randint(2,10),
-                  'max_samples': [0.2, 0.5, 0.8],
-                  'min_samples_split': uniform(0, 0.6),
+                  'min_samples_split': uniform(0, 0.5),
                   'min_samples_leaf': uniform(0, 0.4),
-                  'n_estimators': [10, 100, 200, 250, 300, 500],
+                  'n_estimators': [10, 100, 200, 250, 300, 450],
                   'max_features': ['log2', 'sqrt']}
     
     # I define the model here
@@ -86,3 +85,22 @@ print("Training time: ", Total_time, " seconds")
 # %%
 
 pd.DataFrame(RFC_results.cv_results_).to_csv("..\Resultados\RFC\RFC_results.csv")
+
+# %%
+
+import seaborn as sns
+import pandas as pd
+
+results_dataset = pd.read_csv("..\Resultados\RFC\RFC_results.csv")
+
+#color_dict = dict({0.01:'brown',
+#                  0.1:'green',
+#                  1.0: 'orange',
+#                  10.0: 'red',
+#                   100.0: 'dodgerblue'})
+
+sns.scatterplot(data=results_dataset, x="param_n_estimators", y="mean_test_MCC", hue="param_max_depth")
+# %%
+sorted = results_dataset.sort_values(by=["rank_test_MCC"])
+sorted.iloc[:,5:12].head()
+# %%
