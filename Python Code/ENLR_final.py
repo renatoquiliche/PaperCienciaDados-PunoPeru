@@ -5,6 +5,8 @@ This script runs ENLR tunning for DS-PunoPeru
 """
 # %%
 
+from functools import partial
+from multiprocessing.connection import Pipe
 import pandas as pd
 import numpy as np
 import os
@@ -21,17 +23,10 @@ data_puno = pd.read_csv(url)
 np.random.seed(0)
 
 Y = data_puno["disasters_risk"]
-x = data_puno.iloc[:,6:]
 
-# Feature MinMaxScaling
-
-from sklearn.preprocessing import MinMaxScaler
-
-scaler = MinMaxScaler()
-x[["altura", "gpc"]] = scaler.fit_transform(x[["altura", "gpc"]])
-
-# Get features format
-x.info()
+# %%
+from preprocessing import preprocessing
+x = preprocessing(data_puno, umbral=0.02)
 
 # %%
 
@@ -170,4 +165,19 @@ color_dict = dict({0.01:'brown',
 
 sns.scatterplot(data=results_dataset, x="param_l1_ratio", y="mean_test_MCC", hue="param_C"
                 ,palette=color_dict)
+# %%
+Coefficients = pd.DataFrame(columns=["Variable", "Coefficient"])
+
+Coefficients["Coefficient"] = pd.DataFrame(ENLR_results.best_estimator_.coef_.T)
+
+Coefficients["Variable"] = pd.DataFrame(ENLR_results.feature_names_in_)
+
+# %%
+from sklearn.inspection import partial_dependence, plot_partial_dependence
+
+## This function accepts one feature per evaluation, it maps the effects
+
+partial_dependence(ENLR_results.best_estimator_, X=x, features=72)
+plot_partial_dependence(ENLR_results.best_estimator_, X=x, features=[71])
+
 # %%
