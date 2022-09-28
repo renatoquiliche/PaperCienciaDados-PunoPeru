@@ -1,39 +1,39 @@
-<mxfile host="app.diagrams.net" modified="2022-09-28T00:17:03.696Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.102 Safari/537.36 OPR/90.0.4480.84" etag="vVwO8kvKoLx8i9yrdn56" version="20.3.1" type="github">
+<mxfile host="app.diagrams.net" modified="2022-09-28T02:01:34.690Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.102 Safari/537.36 OPR/90.0.4480.84" etag="hKpBl-WY3hGv-MMSiRfR" version="20.3.1" type="github">
   <diagram id="_FnyT35qMXqu1VLzrbHz" name="Página-1">
-    <mxGraphModel dx="1192" dy="655" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="998" dy="548" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="Wn_RYli8uKQgYfz1u8UO-8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Wn_RYli8uKQgYfz1u8UO-1" target="Wn_RYli8uKQgYfz1u8UO-9">
+        <mxCell id="Wn_RYli8uKQgYfz1u8UO-8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="Wn_RYli8uKQgYfz1u8UO-1" target="Wn_RYli8uKQgYfz1u8UO-9" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="200" y="240" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="Wn_RYli8uKQgYfz1u8UO-1" value="ELTEs" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="Wn_RYli8uKQgYfz1u8UO-1" value="ELTEs" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="40" y="200" width="80" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="Wn_RYli8uKQgYfz1u8UO-6" value="&lt;span style=&quot;background-color: initial;&quot;&gt;Natural hazard&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;+ Vulnerability&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;+ Exposure&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=middle;overflow=hidden;align=center;" vertex="1" parent="1">
+        <mxCell id="Wn_RYli8uKQgYfz1u8UO-6" value="&lt;span style=&quot;background-color: initial;&quot;&gt;Natural hazard&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;+ Vulnerability&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;+ Exposure&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=middle;overflow=hidden;align=center;" parent="1" vertex="1">
           <mxGeometry x="15" y="270" width="130" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="Wn_RYli8uKQgYfz1u8UO-15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Wn_RYli8uKQgYfz1u8UO-9" target="Wn_RYli8uKQgYfz1u8UO-14">
+        <mxCell id="Wn_RYli8uKQgYfz1u8UO-15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="Wn_RYli8uKQgYfz1u8UO-9" target="Wn_RYli8uKQgYfz1u8UO-14" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="Wn_RYli8uKQgYfz1u8UO-9" value="Systematic exposure" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
+        <mxCell id="Wn_RYli8uKQgYfz1u8UO-9" value="Systematic exposure" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
           <mxGeometry x="180" y="195" width="140" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="Wn_RYli8uKQgYfz1u8UO-10" value="Cold waves" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;" vertex="1" parent="Wn_RYli8uKQgYfz1u8UO-9">
+        <mxCell id="Wn_RYli8uKQgYfz1u8UO-10" value="Cold waves" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;" parent="Wn_RYli8uKQgYfz1u8UO-9" vertex="1">
           <mxGeometry y="30" width="140" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="Wn_RYli8uKQgYfz1u8UO-11" value="Severe winter conditions" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;" vertex="1" parent="Wn_RYli8uKQgYfz1u8UO-9">
+        <mxCell id="Wn_RYli8uKQgYfz1u8UO-11" value="Severe winter conditions" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;" parent="Wn_RYli8uKQgYfz1u8UO-9" vertex="1">
           <mxGeometry y="60" width="140" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="Wn_RYli8uKQgYfz1u8UO-14" value="Disastrous events" style="whiteSpace=wrap;html=1;fontStyle=0;startSize=30;" vertex="1" parent="1">
+        <mxCell id="Wn_RYli8uKQgYfz1u8UO-14" value="Disastrous events" style="whiteSpace=wrap;html=1;fontStyle=0;startSize=30;" parent="1" vertex="1">
           <mxGeometry x="380" y="210" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="Wn_RYli8uKQgYfz1u8UO-16" value="&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;&lt;/blockquote&gt;&lt;ul&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Seasonal&lt;/span&gt;&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Recurrent&lt;/span&gt;&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Localized&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;&lt;/blockquote&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=middle;overflow=hidden;align=center;" vertex="1" parent="1">
+        <mxCell id="Wn_RYli8uKQgYfz1u8UO-16" value="&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;&lt;/blockquote&gt;&lt;ul&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Seasonal&lt;/span&gt;&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Recurrent&lt;/span&gt;&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Localized&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;&lt;/blockquote&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=middle;overflow=hidden;align=center;" parent="1" vertex="1">
           <mxGeometry x="180" y="135" width="110" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="Wn_RYli8uKQgYfz1u8UO-18" value="&lt;ul&gt;&lt;li style=&quot;text-align: left;&quot;&gt;Economic losses&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;Human lives&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;Livestock&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;Health deterioration&lt;/li&gt;&lt;/ul&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;" vertex="1" parent="1">
+        <mxCell id="Wn_RYli8uKQgYfz1u8UO-18" value="&lt;ul&gt;&lt;li style=&quot;text-align: left;&quot;&gt;Economic losses&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;Human lives&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;Livestock&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;Health deterioration&lt;/li&gt;&lt;/ul&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;" parent="1" vertex="1">
           <mxGeometry x="360" y="270" width="150" height="65" as="geometry" />
         </mxCell>
       </root>
