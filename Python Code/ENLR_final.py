@@ -99,6 +99,9 @@ print("Training time: ", Total_time, " seconds")
 pd.DataFrame(ENLR_results.cv_results_).to_csv("..\Resultados\ENLR\ENLR_results.csv")
 
 # %%
+results_dataset = pd.read_csv("..\Resultados\ENLR\ENLR_results.csv")
+
+# %%
 cutoff = round(n_iter*0.05)
 
 results_dataset = pd.DataFrame(ENLR_results.cv_results_)
@@ -179,5 +182,36 @@ from sklearn.inspection import partial_dependence, plot_partial_dependence
 
 partial_dependence(ENLR_results.best_estimator_, X=x, features=72)
 plot_partial_dependence(ENLR_results.best_estimator_, X=x, features=[71])
+
+# %%
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import ConfusionMatrixDisplay
+from sklearn.linear_model import LogisticRegression
+
+params = step5["params"].iloc[0]
+
+import ast
+params = ast.literal_eval(params)
+
+winner_model = LogisticRegression(C=params['C'], l1_ratio=params['l1_ratio'],
+                                  penalty='elasticnet', solver='saga', 
+                                  max_iter=4000, n_jobs=-1,
+                                     random_state=0)
+
+# %%
+import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix
+
+x_train, x_test, y_train, y_test = train_test_split(x, Y, random_state=0, test_size=0.2, stratify=Y)
+winner_model.fit(x_train, y_train)
+plt.rcParams.update(plt.rcParamsDefault)
+predictions = winner_model.predict(x_test)
+cm = confusion_matrix(y_test, predictions, labels=winner_model.classes_)
+disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=["Otherwise", "Household at risk"])
+disp.plot()
+
+
+print('Negative predictive value: ', neg_pred_value(y_test, predictions))
+print('Mathews Correlation Coefficient: ', matthews_corrcoef(y_test, predictions))
 
 # %%
