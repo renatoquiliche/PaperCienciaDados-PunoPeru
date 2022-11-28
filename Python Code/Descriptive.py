@@ -35,31 +35,44 @@ def preprocessing(df: pd.DataFrame, umbral: float):
 
 final_data, x = preprocessing(df=data_puno, umbral=0.02)
 
-corr_matrix = x.corr(method='pearson')
+# %%
+x = data_puno.iloc[:,6:]
+corr_matrix = x.corr(method='spearman')
+
 
 # %%
-
-treshold = 0.7
-get_index = corr_matrix[((corr_matrix > treshold) | (corr_matrix < -treshold)) & (corr_matrix != 1)].dropna(how='all').index
 
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-cmap_reversed = plt.cm.get_cmap('Spectral_r')
-corr_subset = corr_matrix.loc[get_index, get_index]
+#cmap_reversed = plt.cm.get_cmap('Spectral_r')
 
 plt.figure(figsize=(12,12))
-sns.heatmap(corr_subset[corr_matrix != 1], cbar=False
-, cmap='bwr', annot=True, robust=True, fmt="0.1%", center=0
-, xticklabels=corr_subset.columns, yticklabels=corr_subset.columns)
+#sns.heatmap(corr_matrix, cbar=False
+#, cmap='Spectral_r', annot=True, robust=True, fmt="0.1%", center=0
+#, xticklabels=corr_matrix.columns, yticklabels=corr_matrix.columns)
 
-plt.savefig("..\Resultados\Graphics\corr_matrix.png", dpi=600)
+sns.heatmap(corr_matrix, cbar=True, cmap='bwr',
+            xticklabels=False, yticklabels=False)
+
+#plt.savefig("..\Resultados\Graphics\corr_matrix.png", dpi=600)
 # %%
 
-plt.figure(figsize=(12,12))
-sns.heatmap(corr_matrix[corr_matrix != 1], cbar=False, center=0
-, cmap='bwr', robust=True, yticklabels=False, xticklabels=False)
+plt.figure(figsize=(10,10))
+sns.heatmap(corr_matrix.values, cbar=True,cmap='viridis')
 
 plt.savefig("..\Resultados\Graphics\corr_matrix_full.png", dpi=600)
 
+# %%
+plt.figure(figsize=(10,10))
+a = np.zeros((86,86))
+
+for i in range(86):
+    for j in range(86):
+        if np.abs(corr_matrix[corr_matrix != 1]).iloc[i,j]>=0.6:
+            a[i,j]=1
+
+sns.heatmap(a, cbar=True, cmap='viridis')
+# %%
+a.mean()
 # %%
