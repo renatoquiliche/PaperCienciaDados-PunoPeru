@@ -26,15 +26,16 @@ def preprocessing(df: pd.DataFrame, umbral: float):
     final_data = df.loc[:,index_features]
     descriptive_cat = pd.concat([final_data.mean(), final_data.sum()], axis=1)
 
-    descriptive_cat.to_excel("descriptive_cat.xlsx")
+    #descriptive_cat.to_excel("descriptive_cat.xlsx")
 
     final_data[["gpc", "altitude"]] = df[["gpc", "altitude"]]
     
     
     print("New data dimension", final_data.shape)
-    return final_data, x
+    return final_data
 
-final_data, x = preprocessing(df=data_puno, umbral=0.02)
+final_data= preprocessing(df=data_puno, umbral=0.02)
+data_puno.mean().to_csv('descriptive_cat.csv')
 
 # %%
 corr_matrix = final_data.corr(method='spearman')
