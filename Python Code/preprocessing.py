@@ -14,13 +14,13 @@ def preprocessing(df, umbral: float):
 
     #descriptive_cat.to_excel("descriptive_cat.xlsx")
 
-    final_data[["gpc", "altura"]] = df[["gpc", "altura"]]
+    final_data[["gpc", "altitude"]] = df[["gpc", "altitude"]]
     
     # 3
     from sklearn.preprocessing import MinMaxScaler
 
     scaler = MinMaxScaler()
-    final_data[["altura", "gpc"]] = scaler.fit_transform(x[["altura", "gpc"]])
+    final_data[["altitude", "gpc"]] = scaler.fit_transform(x[["altitude", "gpc"]])
     
     print("New data dimension", final_data.shape)
     return final_data

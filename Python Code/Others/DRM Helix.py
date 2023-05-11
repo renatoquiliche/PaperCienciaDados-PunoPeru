@@ -58,7 +58,9 @@ plt.yticks([])
 plt.xlabel("Time (→)", fontsize='xx-large')
 plt.ylabel("Resources/efforts (↔)", fontsize='xx-large')
 plt.xlim([-2, 114])
+plt.text(79, -1.200, "Adapted from Bosher et al. (2021)", rotation='horizontal'
+         , fontsize='x-large')
 plt.legend(loc="upper left")
-
+plt.savefig('Helix.png', dpi=400, bbox_inches='tight')
 
 # %%
